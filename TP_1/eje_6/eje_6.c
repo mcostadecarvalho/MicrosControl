@@ -1,48 +1,45 @@
-#include <stdio.h>
-#include <math.h>
 #include "eje_6.h"
 
-float norma(vector_3D* v) {
-    return sqrt((*v).x * (*v).x + (*v).y * (*v).y + (*v).z * (*v).z);
+float fnorma(vector_3D v) {
+    return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
-vector_3D suma(vector_3D* v1, vector_3D* v2) {
-    vector_3D result;
-    result.x = (*v1).x + (*v2).x;
-    result.y = (*v1).y + (*v2).y;
-    result.z = (*v1).z + (*v2).z;
-    return result;
+void fsuma(vector_3D *v1, vector_3D *v2, vector_3D *resultado) {
+    resultado->x = v1->x + v2->x;
+    resultado->y = v1->y + v2->y;
+    resultado->z = v1->z + v2->z;
 }
 
-vector_3D resta(vector_3D* v1, vector_3D* v2) {
-    vector_3D result;
-    result.x = (*v1).x - (*v2).x;
-    result.y = (*v1).y - (*v2).y;
-    result.z = (*v1).z - (*v2).z;
-    return result;
-}
-float producto_interno(vector_3D* v1, vector_3D* v2) {
-    return (*v1).x * (*v2).x + (*v1).y * (*v2).y + (*v1).z * (*v2).z;
+void fresta(vector_3D *v1, vector_3D *v2, vector_3D *resultado) {
+    resultado->x = (v1->x - v2->x);
+    resultado->y = (v1->y - v2->y);
+    resultado->z = (v1->z - v2->z);
 }
 
-vector_3D producto_externo(vector_3D* v1, vector_3D* v2) {
-    vector_3D result;
-    result.x = (*v1).y * (*v2).z - (*v1).z * (*v2).y;
-    result.y = (*v1).z * (*v2).x - (*v1).x * (*v2).z;
-    result.z = (*v1).x * (*v2).y - (*v1).y * (*v2).x;
-    return result;
+float fproducto_interno(vector_3D *v1, vector_3D *v2) {
+    return (v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z);
 }
 
-void imprimir_vector(vector_3D* v) {
-    printf("%.2f\t%.2f\t%.2f\n", (*v).x, (*v).y, (*v).z);
+void fproducto_externo(vector_3D *v1, vector_3D *v2, vector_3D *resultado) {
+    resultado->x = (v1->y * v2->z - v1->z * v2->y);
+    resultado->y = (v1->z * v2->x - v1->x * v2->z);
+    resultado->z = (v1->x * v2->y - v1->y * v2->x);
 }
 
-vector_3D crear_vector(float x, float y, float z) {
+void fimprimir_vector(vector_3D v) {
+    printf("%.2f\t%.2f\t%.2f\n", v.x, v.y, v.z);
+}
+
+vector_3D fcrear_vector(float x, float y, float z) {
     vector_3D v;
     v.x = x;
     v.y = y;
     v.z = z;
-    
+
+    // Se apuntan los punteros a función dentro del struct a las funciones correspondientes
+    v.norma = fnorma;
+    v.imprimir_vector = fimprimir_vector;
+
     return v;
 }
 
