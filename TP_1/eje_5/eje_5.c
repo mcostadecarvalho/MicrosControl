@@ -1,95 +1,50 @@
-/*
- * TP 1
- * Ejercicio 5                                                                           
- * Escriba un programa que permanentemente solicite un número entero e imprima en pantalla      
- * el promedio de los últimos 10 números ingresados hasta que el usuario ingrese la             
- * palabra “EXIT”.
- */
+#include <stdio.h>
+#include <string.h>
 
-// Librerias
-#include <stdio.h> // Para printf, fgets, fflush
-#include <stdint.h>
-#include <string.h> // Para strcmp
-#include <stdlib.h> // Para atoi
+#define n 10
 
-// Macros
-#define max_size_buff 10
-#define max_number_size 10
+void promedioDinamicoUltimos10();
 
-int main(void){
-    int numbers[max_number_size] = {0}, sum = 0;
-    char buffer[max_size_buff];
-    int i = 0, head = 0, count = 0, valor, start, pos;
-    float prom = 0; 
+int main() {
+    //PromedioConOrdenamientoBurbuja();
+    promedioDinamicoUltimos10();
+    
+    return 0;
+}
 
-    // El programa solicita un número entero al usuario de forma permanente hasta que se ingrese "EXIT".
-    // El programa utiliza un looping infinito para solicitar números y calcular el promedio de los últimos 10 números ingresados.
-    while (1){
-        
-        // Se lee la entrada del usuario usando fgets.
-        // Se limpia el buffer antes de cada lectura para evitar problemas con entradas anteriores.
-        // En cada loop se pide al usuario que ingrese un número entero o "EXIT" para terminar el programa.
-        // Se elimina el salto de línea al final que agrega fgets para facilitar la comparación con "EXIT" y la conversión a entero.
-        printf("Enter a integer or 'EXIT' to finish:\n");
-        fflush(stdin);
-        fgets(buffer, max_number_size, stdin);
-        for (i=0; buffer[i] != '\n'; i++);
-        buffer[i] = '\0';
-        
-        // Si el usuario ingresa "EXIT", el programa se termina.
-        if (strcmp(buffer,"EXIT") == 0) {
-            printf("The program is finished!");
-            return 0;
-        }
-        
-        // Valida que la entrada del usuario sea un número entero válido signado o no 
-        // Si no lo es, se muestra un mensaje de error y se limpia el buffer para evitar procesar un valor no válido.
-        for (i = 0; buffer[i] != '\0';i ++){
-            if ((buffer[i] >= '0' && buffer[i] <= '9') || buffer[i] == '-') continue;
-            else {
-                printf("El valor no es un numero entero \n");
-                buffer[0] = '\0'; // Limpiar el buffer para evitar procesar un valor no válido
-                break;
+
+//PEDIR NUMEROS CADA UN SEGUNDO AL USUARIO Y CALCULAR EL PROMEDIO DE LOS ULTIMOS 10 NUMEROS INGRESADOS
+//LA CONDICION SE DEBE CUMPLIR HASTA QUE SE INGRESE "EXIT"
+
+void promedioDinamicoUltimos10() {
+    float arr[n], num, sum = 0.0;
+    int count = 0;
+
+    while (1) {
+        printf("Ingrese un numero (o 'EXIT' para salir): ");
+        if (scanf("%f", &num) != 1) { //Verfico que la entrada no es un numero
+            char exitStr[5];
+            scanf("%s", exitStr);
+            if (strcmp(exitStr, "EXIT") == 0) {
+                break; // si efectivamente no es un numero se compara con EXIT, si es igual, se corta el programa
+            } else {
+                printf("Entrada no valida. Intente de nuevo.\n"); 
+                continue;
             }
         }
-
-        // Si la entrada es un número entero válido, se convierte a entero usando atoi y 
-        // si la entrada es un número no válido, se pone el buffer como cadena vacía y con atoi se carga el 0
-        // que no afecta el promedio pero permite continuar con el programa sin errores.
-        // Y se almacena en un buffer circular para mantener solo los últimos 10 números ingresados.
-        valor = atoi(buffer);
-        
-        // Se almacena siempre el nuevo valor en la posición indicada por head, que se mueve de forma circular 
-        // para mantener solo los últimos 10 números ingresados.
-        // La operación de resto con max_number_size asegura que head vuelva al inicio del array cuando alcance max_number_size,
-        // y así se mantiene un buffer circular de los últimos 10 números ingresados.
-        numbers[head] = valor; 
-        head = (head + 1) % max_number_size; // Mover el head al siguiente índice
-
-        // El contador de números ingresados se incrementa hasta un máximo de 10 para calcular el promedio correctamente.
-        if (count < max_number_size) count++;
-
-        // Calcular la posición de inicio para mostrar los últimos números ingresados en orden correcto, 
-        // teniendo en cuenta el head y el count de números ingresados.
-        start = (head - count + max_number_size) % max_number_size; 
-        
-        printf("The 10 most recent values are:\n");
-        for (i = 0; i < count; i++) {
-            pos = (start + i) % max_number_size; //
-            printf("%d\t", numbers[pos]);
-        }
-        printf("\n");
-
-        // Se calcula el promedio
-        sum = 0;
-        for (i = 0; i < count; i++) {
-            sum += numbers[i];
-        }
-
-        prom = (float)sum / count;
-
-        printf("Average: %.2f\n\n", prom);
+        if (count + 1 < n ) {
+            arr[count+1] = num;
+            sum += num;
+            count++;
+            printf("Ingrese %d numeros para completar los ultimos 10 y hacer el promedio.\n", n - count);
+        } else {
+            sum -= arr[0]; // Restar el primer numero del arreglo, YA TIENE SUMADOS LOS ANTERIORES
+            for (int i = 0; i < n; i++) {
+                arr[i] = arr[i + 1]; // Desplazar los numeros a la izquierda
+            }
+            arr[n - 1] = num; // Agregar el nuevo numero al final
+            sum += num; // Sumar el nuevo numero
+            printf("El promedio de los ultimos %d numeros es: %.2f\n", 10 , sum / 10);
+        }  
     }
-
-    return 0;
 }
