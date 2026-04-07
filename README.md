@@ -6,8 +6,12 @@
 - Maximiliano Vega 
 - Sebastián Carlos Colombo
 
+
 ### Alumno:
+- Juan Agustín Martínez Haarth - 63773
 - Mateus Costa de Carvalho - 62313
+- Martiniano Federico Leguizamon - 63601
+
 
 ### Resumen:
 MicrosControl es un reposorio de prácticas de programación en C enfocado en la implementación de software para microcontroladores de sistemas embebidos. Incluye prácticas de programación en C, diseño de algoritmos de control, manipulación de señales externas y estructuras de datos, con el objetivo de aplicar conceptos de arquitectura de sistemas en aplicaciones reales de embebidos. 
