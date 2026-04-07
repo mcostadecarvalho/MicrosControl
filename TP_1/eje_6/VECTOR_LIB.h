@@ -1,4 +1,5 @@
-
+#ifndef VECTOR_LIB_EJ6
+#define VECTOR_LIB_EJ6
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,3 +34,5 @@ Vector3D fcalcular_suma(Vector3D a, Vector3D b);
 Vector3D fcalcular_resta(Vector3D a, Vector3D b);
 float fcalcular_producto_interno(Vector3D a, Vector3D b);
 Vector3D fcalcular_producto_externo(Vector3D a, Vector3D b);
+
+#endif /* VECTOR_LIB_EJ6 */
